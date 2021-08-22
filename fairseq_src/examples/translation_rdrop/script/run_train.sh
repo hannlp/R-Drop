@@ -6,8 +6,8 @@ set -e
 src=de
 tgt=en
 
-DATA_PATH=data-bin/iwslt14.rdrop.tokenized.de-en/
-MODEL_PATH=iwslt14.rdrop.de-en-ckpt
+DATA_PATH=/content/data-bin/iwslt14.rdrop.tokenized.de-en/
+MODEL_PATH=/content/iwslt14.rdrop.de-en-ckpt
 mkdir -p $MODEL_PATH
 nvidia-smi
 
@@ -16,7 +16,7 @@ python -c "import torch; print(torch.__version__)"
 export CUDA_VISIBLE_DEVICES=0
 
 fairseq-train $DATA_PATH \
-    --user-dir examples/translation_rdrop/translation_rdrop_src \
+    --user-dir /content/R-Drop/fairseq_src/examples/translation_rdrop/translation_rdrop_src \
     --task rdrop_translation \
     --arch transformer_iwslt_de_en \
     --share-all-embeddings \
@@ -27,7 +27,6 @@ fairseq-train $DATA_PATH \
     --reg-alpha 5 \
     --no-progress-bar \
     --seed 64 \
-    --fp16 \
     --eval-bleu \
     --eval-bleu-args '{"beam": 5, "max_len_a": 1.2, "max_len_b": 10}' \
     --eval-bleu-detok moses \

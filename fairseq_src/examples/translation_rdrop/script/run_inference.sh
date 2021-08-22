@@ -6,8 +6,8 @@ set -e
 src=de
 tgt=en
 
-DATA_PATH=data-bin/iwslt14.rdrop.tokenized.de-en/
-MODEL_PATH=iwslt14.rdrop.de-en-ckpt
+DATA_PATH=/content/data-bin/iwslt14.rdrop.tokenized.de-en/
+MODEL_PATH=/content/iwslt14.rdrop.de-en-ckpt
 nvidia-smi
 
 python -c "import torch; print(torch.__version__)"
@@ -18,4 +18,4 @@ python fairseq_cli/generate.py $DATA_PATH \
     --path $MODEL_PATH/checkpoint_best.pt \
     --beam 5 --remove-bpe >> $MODEL_PATH/result.gen
 
-bash scripts/compound_split_bleu.sh $MODEL_PATH/result.gen
+bash /content/R-Drop/fairseq_src/scripts/compound_split_bleu.sh $MODEL_PATH/result.gen
